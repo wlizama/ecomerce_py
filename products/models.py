@@ -9,7 +9,7 @@ class Product(models.Model):
   price = models.IntegerField()
   slug = models.SlugField()
 
-  def __str(self):
+  def __str__(self):
     return self.title
 
 class ProductCategory(models.Model):
