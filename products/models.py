@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Product(models.Model):
   
@@ -9,6 +10,9 @@ class Product(models.Model):
   price = models.IntegerField()
   slug = models.SlugField()
   categories = models.ManyToManyField("products.ProductCategory")
+
+  def get_absolute_url(self):
+    return reverse("detail", kwargs={"slug" : self.slug })
 
   def __str__(self):
     return self.title
