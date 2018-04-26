@@ -76,6 +76,14 @@
             </div>
           </div>
 
+          <div class="card my-4">
+            <h5 class="card-header">Pricing</h5>
+            <div class="card-body">
+              Only ${{product.price}}
+              <a href="{% url "buy" slug=product.slug %}"><button type="button" class="btn btn-success">Buy</button></a>
+            </div>
+          </div>
+
           <!-- Comments Form -->
           {% if request.user.is_authenticated %}
           <h4 id="comments">Comments</h4>
