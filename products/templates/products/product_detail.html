@@ -76,7 +76,34 @@
             </div>
           </div>
 
-          
+          <!-- Comments Form -->
+          {% if request.user.is_authenticated %}
+          <h4 id="comments">Comments</h4>
+          <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+              <form method="post" action="{% url "comments:createcomment" %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <textarea name="{{comment_form.content.name}}" class="form-control" rows="3"></textarea>
+                  <input type="hidden" name="{{comment_form.product.name}}" value="{{product.id}}">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Single Comment -->
+          <div id="0" class="media mb-4">
+            {% for comment in product.comments.all %}
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">{{comment.author.username}}</h5>
+              {{comment.content}}
+            </div>
+            {% endfor %}
+          </div>
 
         </div>
 

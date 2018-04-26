@@ -11,5 +11,11 @@ class Comment(models.Model):
     related_name='comments'
   )
 
+  product = models.ForeignKey(
+    "products.Product",
+    related_name = "comments",
+    on_delete = models.CASCADE
+  )
+
   def __str__(selft):
     return selft.conten[:20]
