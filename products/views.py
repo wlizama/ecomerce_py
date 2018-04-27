@@ -34,12 +34,24 @@ class ProductBuyView(DetailView):
     token = request.POST["stripeToken"]
     product = self.get_object()
 
-    charge = stripe.Charge.create(
-      amount=product.price,
-      currency="usd",
-      description="cobro por {}".format(product.title),
-      statement_descriptor="cobro ecomerce.py",
-      source=token
-    )
+    error_message = None
+
+    try:
+      charge = stripe.Charge.create(
+        amount=product.price,
+        currency="usd",
+        description="cobro por {}".format(product.title),
+        statement_descriptor="cobro ecomerce.py",
+        source=token
+      )
+    except stripe.error.CardError as e:
+      body  = e.json_body
+      err = body["error"]
+      error_message = err["message"]
+    except stripe.error.StripeError as e:
+      error_message = "No se pudo procesar su pago."
+
+    if error_message:
+      return render(request, "products/failed.html", { "error_message": error_message, "product" : product})
 
     return render(request, "products/success.html", { "debug_info": charge, "product" : product})
