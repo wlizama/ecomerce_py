@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView
-from products.models import Product
+from products.models import Product, LogBuy
 from comments.forms import CommentForm
 import stripe
 from django.conf import settings
@@ -53,5 +53,11 @@ class ProductBuyView(DetailView):
 
     if error_message:
       return render(request, "products/failed.html", { "error_message": error_message, "product" : product})
+
+    buyer = None
+    if request.user.is_authenticated:
+      buyer = request.user
+
+    LogBuy.objects.create(product=product, user=buyer)
 
     return render(request, "products/success.html", { "debug_info": charge, "product" : product})

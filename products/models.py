@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 
 class Product(models.Model):
   
@@ -35,3 +36,21 @@ class ProductImage(models.Model):
 
   def __str__(self):
     return self.image.url
+
+class LogBuy(models.Model):
+  created_at = models.DateTimeField(auto_now_add=True)
+  
+  product = models.ForeignKey(
+    "products.Product",
+    on_delete=models.CASCADE
+  )
+
+  user = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+  )
+
+  def __str__(self):
+    return "product {} buyed".format(self.product)
