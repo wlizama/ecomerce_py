@@ -4,7 +4,7 @@ Django==2.0.1
 django-environ==0.4.4
 idna==2.6
 Pillow==6.2.0
-pytz==2018.3
+pytz==2019.3
 requests==2.18.4
 six==1.11.0
 stripe==2.41.0
